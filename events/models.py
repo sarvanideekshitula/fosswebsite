@@ -12,18 +12,23 @@ LEVEL_CHOICES = (('beginner', 'Beginner'),
 
 
 class Event(models.Model):
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=300)
     starting_date = models.DateTimeField()
     ending_date = models.DateTimeField()
     description = models.TextField()
-    mentor_name = models.ForeignKey(User, on_delete=models.CASCADE)
-    level = models.CharField(choices=LEVEL_CHOICES)
+    level = models.CharField(choices=LEVEL_CHOICES,max_length=100)
     prerequisite_needed = models.BooleanField()
     prerequisite_description = models.TextField()
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.name
+
+
+class EventImage(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='events/')
 
 
 
